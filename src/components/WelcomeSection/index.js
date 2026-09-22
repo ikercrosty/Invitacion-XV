@@ -1,53 +1,95 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { object, string, bool, func } from 'prop-types';
+import { Link } from 'gatsby';
 
-import { styHero, styBackground } from './styles';
+import WeddingImg from '@assets/images/wedding-logo.png';
+import CountContainer from './CountContainer';
+import ScrollToDown from './ScrollToDown';
+import { styWrapper, styHero, styBackground, styButtonWrapper } from './styles';
 
-function WelcomeSection({ guestName, isInvitation, isAnonymGuest, location, codeLink, onClickDetail }) {
-  const inviteName = guestName || 'Invitado';
+const DELAY_TIME = 1500;
+
+function WelcomeSection({ location, guestName, isInvitation, isAnonymGuest, codeLink, onClickDetail }) {
+  const [loading, setLoading] = useState(false);
+  const [alreadyDownloadData, setAlreadyDownloadData] = useState(false);
+
+  const handleScrollTo = () => {
+    const element = document.getElementById('fh5co-couple');
+    element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+  };
+
+  const handleShowDetail = () => {
+    if (loading) return undefined;
+
+    try {
+      const myAudio = document.getElementById('myAudio');
+      myAudio.play();
+    } catch {
+      console.error('FAILED_TO_PLAY_MUSIC');
+    }
+
+    onClickDetail();
+
+    if (!alreadyDownloadData) {
+      setLoading(true);
+
+      setTimeout(() => {
+        setLoading(false);
+        setAlreadyDownloadData(true);
+        handleScrollTo();
+      }, DELAY_TIME);
+    } else {
+      handleScrollTo();
+    }
+  };
+
+  const renderGuestSection = () => {
+    if (isAnonymGuest) return <h2 className="to-dearest-name">Estimados amigos,</h2>;
+
+    return (
+      <Fragment>
+        <h3 className="to-dearest">Para nuestro más querido</h3>
+        <h2 className="to-dearest-name">{guestName}</h2>
+      </Fragment>
+    );
+  };
 
   return (
     <div css={styHero}>
-      <header id="fh5co-header" role="banner" className="fh5co-cover" css={styBackground}>
-        <div className="invitation-card">
-          <div className="ornament ornament-top" aria-hidden="true" />
-          <div className="ornament ornament-bottom" aria-hidden="true" />
-
-          <p className="invitation-copy">
-            Hay momentos inolvidables que se atesoran en el corazón para siempre, con esta razón quiero que
-            compartas conmigo este día especial.
-          </p>
-
-          <div className="invitation-names">
-            <span>Karla Gabriela</span>
-            <span className="and-sign">&amp;</span>
-            <span>Ambrosio Raul</span>
-          </div>
-
-          <div className="invitation-years">20 Años</div>
-
-          <div className="invitation-date">3 DE OCTUBRE 2026 A LAS 6:00 PM</div>
-
-          <div className="invitation-confirmation">
-            <span className="quote">“CONFIRMA</span>
-            <span className="quote">TU</span>
-            <span className="quote">ASISTENCIA”</span>
-            <span className="phone">4230-5629</span>
-          </div>
-
-          <div className="invitation-location">
-            SALÓN COMUNAL COL.NUEVA VIDA, LO DE COY, ZONA 1 MIXCO
-          </div>
-
-          {isInvitation && (
-            <div className="invitation-guest">
-              {inviteName}
+      <header
+        id="fh5co-header"
+        role="banner"
+        className="fh5co-cover"
+        css={styBackground}
+        data-stellar-background-ratio="0.5"
+      >
+        <div className="overlay"></div>
+        <div className="container">
+          <div className="row" css={styWrapper}>
+            <div className="col-md-8 col-md-offset-2 text-center">
+              <img src={WeddingImg} alt="wedding-karla-gabriela-ambrosio" />
+              <h4 className="sub-title">La boda de</h4>
+              <h1 className="title">Karla Gabriela &amp; Ambrosio Raúl</h1>
+              <div className={isAnonymGuest ? 'margin__bottom' : ''}>
+                <CountContainer />
+              </div>
+              <br></br>
+              {renderGuestSection()}
+              {isInvitation && (
+                <div className="row" css={styButtonWrapper}>
+                  <div className="col-md-3">
+                    <Link to={`/e-ticket?${codeLink}`}>
+                      <button className="btn btn-default btn-block">Ver e-Ticket</button>
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-
-          {!isInvitation && !isAnonymGuest && (
-            <div className="invitation-guest">{inviteName}</div>
-          )}
+          </div>
+          <br></br>
+          <div className="row">
+            <ScrollToDown loading={loading} onClick={handleShowDetail} />
+          </div>
         </div>
       </header>
     </div>
@@ -55,19 +97,16 @@ function WelcomeSection({ guestName, isInvitation, isAnonymGuest, location, code
 }
 
 WelcomeSection.propTypes = {
-  guestName: string,
+  guestName: string.isRequired,
   isInvitation: bool.isRequired,
   isAnonymGuest: bool.isRequired,
-  location: object,
+  location: object.isRequired,
   codeLink: string,
-  onClickDetail: func,
+  onClickDetail: func.isRequired,
 };
 
 WelcomeSection.defaultProps = {
-  guestName: '',
-  location: {},
   codeLink: '',
-  onClickDetail: () => undefined,
 };
 
 export default WelcomeSection;
