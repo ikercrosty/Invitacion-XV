@@ -3,6 +3,7 @@ import { object, string, bool, func } from 'prop-types';
 import { Link } from 'gatsby';
 
 import WeddingImg from '@assets/images/wedding-logo.png';
+import { GOOGLE_CALENDAR_LINK } from '@/constants';
 import CountContainer from './CountContainer';
 import ScrollToDown from './ScrollToDown';
 import { styWrapper, styHero, styBackground, styButtonWrapper } from './styles';
@@ -48,7 +49,7 @@ function WelcomeSection({ location, guestName, isInvitation, isAnonymGuest, code
 
     return (
       <Fragment>
-        <h3 className="to-dearest">Para nuestro más querido</h3>
+        <h3 className="to-dearest">Para nosotros, lo más querido</h3>
         <h2 className="to-dearest-name">{guestName}</h2>
       </Fragment>
     );
@@ -72,6 +73,13 @@ function WelcomeSection({ location, guestName, isInvitation, isAnonymGuest, code
               <h1 className="title">Karla Gabriela &amp; Ambrosio Raúl</h1>
               <div className={isAnonymGuest ? 'margin__bottom' : ''}>
                 <CountContainer />
+              </div>
+              <div className="row" css={styButtonWrapper}>
+                <div className="col-md-3">
+                  <a href={GOOGLE_CALENDAR_LINK} title="Agregar al calendario" target="_blank" rel="noreferrer">
+                    <button className="btn btn-default btn-block">Agregar al calendario</button>
+                  </a>
+                </div>
               </div>
               <br></br>
               {renderGuestSection()}

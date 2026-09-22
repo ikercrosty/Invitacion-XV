@@ -31,7 +31,7 @@ function HelloSection({ isInvitation }) {
 							<div className="desc-groom">
 								<h3 className="main-font">Karla Gabriela</h3>
 								<p className="parent-name parent-name__top">
-									Hija de {/* mantener texto original o usar general */}
+									Hija de sus padres
 								</p>
 							</div>
 						</div>
@@ -48,7 +48,7 @@ function HelloSection({ isInvitation }) {
 							<div className="desc-bride">
 								<h3 className="main-font">Ambrosio Raúl</h3>
 								<p className="parent-name">
-									Hijo de {/* mantener texto original o usar general */}
+									Hijo de sus padres
 								</p>
 							</div>
 						</div>
