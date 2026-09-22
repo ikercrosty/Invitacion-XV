@@ -1,0 +1,5 @@
+node_modules/
+oracleJdk-27.jdk/
+/.cache
+/public
+*.~lock*
