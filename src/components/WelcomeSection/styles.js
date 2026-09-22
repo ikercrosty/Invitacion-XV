@@ -1,286 +1,181 @@
-import { css, keyframes } from '@emotion/core';
-import Background from '@assets/images/bg-welcome.jpg';
+import { css } from '@emotion/core';
 
 export const styHero = css`
   width: 100%;
-  height: 100vh;
-`;
-
-const radarAnimation = keyframes`
-  0% {
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  60% {
-    box-shadow: 0 0 0 30px rgba(255,255,255,.1);
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-`;
-
-export const upAndDownAnimation = keyframes`
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-5px); }
-`;
-
-export const styScrollWrapper = css`
-  #scroll {
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-
-    span {
-      position: absolute;
-      bottom: 46px;
-      text-align: center;
-      color: #fff;
-    }
-
-    .text {
-      animation: ${upAndDownAnimation} 1s infinite alternate;
-    }
-
-    @media screen and (max-width: 414px) {
-      .text {
-        bottom: 80px;
-        font-size: 12px;
-      }
-    }
-
-    @media screen and (max-width: 360px) {
-      .text {
-        bottom: 60px;
-        font-size: 12px;
-      }
-    }
-  }
-
-  .scroll__icon {
-    .button {
-      position: absolute;
-      bottom: 46px;
-      left: 50%;
-      z-index: 2;
-      display: inline-block;
-      transform: translate(0, -50%);
-      color: #fff;
-      letter-spacing: 0.1em;
-      text-decoration: none;
-      transition: opacity 0.3s;
-
-      span::before {
-        position: absolute;
-        top: -23px;
-        left: -22px;
-        z-index: -1;
-        content: '';
-        width: 44px;
-        height: 44px;
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
-        border-radius: 100%;
-        opacity: 0;
-        animation: ${radarAnimation} 3s infinite;
-        box-sizing: border-box;
-      }
-
-      span::after {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        content: '';
-        width: 16px;
-        height: 16px;
-        margin: -12px 0 0 -8px;
-        border-left: 1px solid #fff;
-        border-bottom: 1px solid #fff;
-        transform: rotate(-45deg);
-        box-sizing: border-box;
-      }
-    }
-
-    &button:hover {
-      opacity: 0.5;
-    }
-
-    @media screen and (max-width: 414px) {
-      .button {
-        bottom: 80px;
-      }
-    }
-
-    @media screen and (max-width: 360px) {
-      .button {
-        bottom: 65px;
-      }
-    }
-  }
+  min-height: 100vh;
+  background: #f5e8eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
 `;
 
 export const styBackground = css`
-  background-size: cover;
-  background-image: url(${Background});
-  background-position: center;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  @media screen and (max-width: 400px) {
-    .title {
-      font-size: 40px;
-    }
-
-    .sub-title {
-      font-size: 28px;
-    }
-  }
-
-  @media screen and (max-width: 500px) {
-    .title {
-      font-size: 54px;
-    }
-
-    .sub-title {
-      font-size: 28px;
-    }
-  }
-`;
-
-export const styWrapper = css`
-  color: #fff;
-  margin-top: -8em;
-
-  img {
-    max-width: 80px;
-    margin-bottom: 24px;
-  }
-
-  h1 {
-    margin-bottom: 0px;
-    font-size: 100px;
-    line-height: 1.5;
-    font-family: 'Cookie', cursive;
-    color: #fff;
-  }
-
-  h2 {
-    color: #fff;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 1.5;
-    margin-bottom: 30px;
-  }
-
-  h4 {
-    font-family: 'Cookie', cursive;
-    margin: 0;
-    color: #fff;
-    font-size: 30px;
-  }
-
-  .getting-married {
-    margin-top: -12px;
-  }
-
-  .to-dearest {
-    font-size: 16px;
-    color: #f1f1f1b3;
-    margin-bottom: 8px;
-  }
-
-  .to-dearest-name {
-    border-bottom: 1px solid;
-    padding-bottom: 12px;
-    max-width: 250px;
-    margin: auto auto 30px auto;
-  }
-
-  .margin__bottom {
-    margin-bottom: 3em !important;
-  }
-
-  a {
-    color: #f14e95;
-  }
-
-  @media screen and (max-width: 330px) {
-    img {
-      max-width: 40px;
-      margin-top: 24px;
-      margin-bottom: 8px;
-    }
-
-    .to-dearest {
-      margin-bottom: 8px;
-      font-size: 16px;
-    }
-
-    .to-dearest-name {
-      margin: auto auto 16px auto;
-    }
-  }
-`;
-
-export const styWrapperCount = css`
-  display: inline-block;
-  width: 100px;
-  height: 100px;
-  background: rgba(241, 78, 149, 0.8);
-  margin: 8px;
-  border-radius: 50%;
-  position: relative;
-  animation: pulse 1s ease infinite;
-  color: #fff;
-
-  h3 {
-    font-size: 30px;
-    color: #fff;
-    margin: 20px 0 0 0;
-  }
-
-  @media screen and (max-width: 500px) {
-    width: 75px;
-    height: 75px;
-    margin: 4px;
-    font-size: 12px;
-
-    h3 {
-      font-size: 24px;
-    }
-  }
-
-  @media screen and (max-width: 380px) {
-    width: 55px;
-    height: 55px;
-
-    h3 {
-      margin-top: 12px;
-      margin-bottom: -4px;
-      font-size: 16px;
-    }
-
-    span {
-      font-size: 10px;
-    }
-  }
-`;
-
-export const styMargin = (px) => css`
-  margin: ${px};
-`;
-
-export const styButtonWrapper = css`
-  display: flex;
   justify-content: center;
+  background: #f5e8eb;
 
-  .btn {
-    background: #f14e95;
-    color: #fff;
-    border: none;
+  .invitation-card {
+    position: relative;
+    width: min(100%, 1000px);
+    min-height: 850px;
+    background: rgba(255, 245, 248, 0.9);
+    border: 4px solid #c79b4d;
+    box-shadow: inset 0 0 0 2px rgba(199, 155, 77, 0.7), 0 0 0 8px rgba(199, 155, 77, 0.12);
+    padding: 4rem 3rem 3rem;
+    text-align: center;
+    color: #a36a6d;
+    overflow: hidden;
+  }
+
+  .invitation-card::before,
+  .invitation-card::after {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(199, 155, 77, 0.6);
+    pointer-events: none;
+  }
+
+  .ornament {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgba(199, 155, 77, 0.7);
+    opacity: 0.8;
+  }
+
+  .ornament-top {
+    top: 12px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    height: 140px;
+    background: radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.7), transparent 38%);
+  }
+
+  .ornament-bottom {
+    bottom: 10px;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    height: 130px;
+    background: radial-gradient(circle at 50% 90%, rgba(255, 255, 255, 0.5), transparent 42%);
+  }
+
+  .invitation-copy {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 120px auto 20px;
+    font-size: clamp(18px, 2.1vw, 32px);
+    line-height: 1.5;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-style: italic;
+    color: #b27d85;
+  }
+
+  .invitation-names {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-style: italic;
+    color: #c79b4d;
+    font-size: clamp(34px, 4vw, 74px);
+    line-height: 1.1;
+    margin: 20px 0 0;
+  }
+
+  .and-sign {
+    font-size: 0.7em;
+  }
+
+  .invitation-years {
+    position: relative;
+    z-index: 1;
+    margin-top: 10px;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-style: italic;
+    font-size: clamp(30px, 3vw, 54px);
+    color: #b7872f;
+  }
+
+  .invitation-date {
+    position: relative;
+    z-index: 1;
+    margin-top: 24px;
+    font-size: clamp(22px, 2vw, 38px);
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    color: #b36972;
+  }
+
+  .invitation-confirmation {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+    font-size: clamp(22px, 2vw, 36px);
+    font-style: italic;
+    color: #c7707b;
+  }
+
+  .invitation-confirmation .quote {
+    display: block;
+    line-height: 1.1;
+  }
+
+  .invitation-confirmation .phone {
+    font-size: clamp(28px, 2.6vw, 42px);
+    color: #c7707b;
+    margin-left: 8px;
+  }
+
+  .invitation-location {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 26px auto 0;
+    font-size: clamp(22px, 2.2vw, 38px);
+    line-height: 1.2;
+    color: #b05f6d;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .invitation-guest {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .invitation-card {
+      min-height: 720px;
+      padding: 3rem 1.5rem 2rem;
+    }
+
+    .invitation-copy {
+      margin-top: 96px;
+    }
+
+    .invitation-confirmation {
+      gap: 10px;
+    }
   }
 `;
+
+export const styWrapper = css``;

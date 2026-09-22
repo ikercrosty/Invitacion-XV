@@ -15,20 +15,18 @@ function MainLayout({ children }) {
   return (
     <Fragment>
       <Helmet>
-        <title>Arin ❤️ Miftah Wedding</title>
+        <title>Karla Gabriela & Ambrosio Raúl</title>
 
-        {/* Favicon */}
         <link rel="icon" type="image/png" href={Favicon} />
 
-        {/* font and SEO tags */}
-        <meta property="og:title" content="The Wedding of Arin & Miftah" />
+        <meta property="og:title" content="Karla Gabriela & Ambrosio Raúl" />
         <meta property="og:image" itemprop="image" content={IMAGE_URL} />
         <meta property="og:url" content="https://arin.miftahussalam.com" />
-        <meta property="og:site_name" content="The Wedding of Arin & Miftah" />
-        <meta property="og:description" content={META_DESCRIPTION} />
+        <meta property="og:site_name" content="Karla Gabriela & Ambrosio Raúl" />
+        <meta property="og:description" content="Hay momentos inolvidables que se atesoran en el corazón para siempre. Te invitamos a celebrar este día especial." />
         <meta property="og:type" content="website" />
-        <meta name="twitter:title" content="The Wedding of Arin & Miftah" />
-        <meta name="twitter:description" content={META_DESCRIPTION} />
+        <meta name="twitter:title" content="Karla Gabriela & Ambrosio Raúl" />
+        <meta name="twitter:description" content="Hay momentos inolvidables que se atesoran en el corazón para siempre. Te invitamos a celebrar este día especial." />
         <meta name="twitter:image" content={IMAGE_URL} />
         <meta name="twitter:url" content="https://arin.miftahussalam.com" />
         <meta name="twitter:card" content="summary" />
