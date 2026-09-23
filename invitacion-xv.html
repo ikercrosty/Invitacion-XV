@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mis XV Años · Karla Gabriela</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Parisienne&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   PALETA — rosado pastel + verde pastel
+   ========================================================================== */
+:root{
+  --pink:#f7dfe4;
+  --pink-mid:#eec2cd;
+  --pink-deep:#c97e94;
+  --green:#d6e8d6;
+  --green-mid:#b7d4ba;
+  --green-deep:#7fa384;
+  --cream:#fdf8f6;
+  --ink:#4a3f42;
+  --line: rgba(201,126,148,.28);
+  --serif:'Cormorant Garamond', serif;
+  --script:'Parisienne', cursive;
+  --sans:'Jost', sans-serif;
+
+  /* -------- IMÁGENES DE FONDO --------
+     Se completan desde CONFIG en el <script>. Si las dejas vacías,
+     se usa el degradado pastel de respaldo. */
+  --img-portada: none;
+  --img-ubicacion: none;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth; scroll-padding-top: env(safe-area-inset-top,0px);}
+body{
+  font-family:var(--sans);
+  background:var(--cream);
+  color:var(--ink);
+  overflow-x:hidden;
+  padding-top: env(safe-area-inset-top,0px);
+  padding-bottom: env(safe-area-inset-bottom,0px);
+}
+img{max-width:100%; display:block;}
+a{color:inherit;}
+h1,h2,h3{font-family:var(--serif); font-weight:500; color:var(--pink-deep);}
+
+.wrap{max-width:520px; margin:0 auto; padding:0 clamp(20px,6vw,40px);}
+
+.divider{ display:flex; align-items:center; justify-content:center; gap:12px; margin: clamp(26px,6vw,40px) 0; }
+.divider svg{ width:22px; height:22px; }
+.divider::before, .divider::after{ content:''; flex:1; max-width:120px; height:1px; background:var(--line); }
+
+.eyebrow{ font-size:.72rem; letter-spacing:.16em; color:var(--green-deep); font-weight:500; }
+
+section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
+
+/* ==========================================================================
+   PORTADA / SOBRE
+   ========================================================================== */
+#portada{
+  min-height: 100svh; min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  position:relative; text-align:center; overflow:hidden; cursor:pointer;
+  background-image: var(--img-portada), linear-gradient(160deg, var(--pink) 0%, var(--pink-mid) 45%, var(--green) 100%);
+  background-size:cover; background-position:center;
+}
+#portada::after{
+  /* velo pastel para que el texto sea legible sobre cualquier imagen de fondo */
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(160deg, rgba(247,223,228,.78), rgba(214,232,214,.78));
+}
+#portada .marco{ position:absolute; inset:16px; border:1px solid rgba(127,163,132,.45); z-index:1; pointer-events:none; }
+#portada .marco::before{ content:''; position:absolute; inset:7px; border:1px solid rgba(201,126,148,.45); }
+#portada .contenido{ position:relative; z-index:2; padding:20px; transition:opacity .6s ease, transform .6s ease; }
+#portada.abriendo .contenido{ opacity:0; transform:translateY(-14px); }
+#portada .kicker{ font-size:.78rem; letter-spacing:.24em; color:var(--green-deep); }
+#portada h1{ font-family:var(--script); font-size:clamp(2.6rem,11vw,3.8rem); color:var(--pink-deep); line-height:1.15; margin:14px 0 0; }
+#portada h1 span{ display:block; font-size:.62em; color:var(--green-deep); }
+#portada .xv{ font-family:var(--serif); font-style:italic; font-size:clamp(1.2rem,4.5vw,1.5rem); margin-top:10px; letter-spacing:.04em; }
+#portada .fecha{ margin-top:6px; font-size:clamp(.9rem,3vw,1.05rem); letter-spacing:.06em; color:var(--ink); }
+#portada .abrir{
+  margin-top:clamp(32px,8vw,50px); display:inline-flex; align-items:center; gap:10px;
+  font-size:.75rem; letter-spacing:.18em; padding:13px 22px; border:1px solid var(--green-deep); color:var(--green-deep);
+}
+#portada .abrir .aro{ width:8px; height:8px; border:1px solid var(--pink-deep); border-radius:50%; animation: latido 1.8s ease-in-out infinite; }
+@keyframes latido{ 0%,100%{transform:scale(1); opacity:.5;} 50%{transform:scale(1.5); opacity:1;} }
+
+#invitacion{ display:none; }
+#invitacion.visible{ display:block; animation: aparecer .8s ease .1s both; }
+@keyframes aparecer{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;} }
+
+/* ==========================================================================
+   MENSAJE
+   ========================================================================== */
+#mensaje{ text-align:center; background:var(--cream); }
+#mensaje p{
+  font-family:var(--serif); font-style:italic; color:var(--pink-deep);
+  font-size:clamp(1.15rem,4vw,1.5rem); line-height:1.65; max-width:440px; margin:0 auto;
+}
+
+/* ==========================================================================
+   NOMBRE PRINCIPAL
+   ========================================================================== */
+#nombre{ text-align:center; background:linear-gradient(180deg, var(--cream), var(--pink)); }
+#nombre h2{ font-family:var(--script); font-size:clamp(2.6rem,10vw,4rem); color:var(--pink-deep); line-height:1.1; }
+#nombre h2 .seg{ display:block; font-size:.68em; color:var(--green-deep); margin-top:4px; }
+#nombre .xv{ font-family:var(--serif); font-style:italic; font-size:clamp(1.3rem,5vw,1.7rem); margin-top:14px; }
+#nombre .fecha{ margin-top:14px; font-size:.95rem; letter-spacing:.08em; color:var(--ink); }
+
+/* ==========================================================================
+   CUENTA REGRESIVA
+   ========================================================================== */
+#cuenta{ background:var(--green); text-align:center; }
+#cuenta h2{ font-size:clamp(1.5rem,6vw,1.9rem); font-style:italic; margin-bottom: clamp(24px,6vw,34px); }
+.cuenta-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(8px,2.5vw,16px); max-width:420px; margin:0 auto; }
+.cuenta-item{ background:var(--cream); border:1px solid var(--line); padding:clamp(12px,3vw,20px) 4px; }
+.cuenta-item .num{ font-family:var(--serif); font-size:clamp(1.6rem,6.5vw,2.3rem); color:var(--pink-deep); font-weight:600; line-height:1; }
+.cuenta-item .lbl{ font-size:.64rem; letter-spacing:.1em; margin-top:6px; color:var(--green-deep); }
+
+/* ==========================================================================
+   UBICACIÓN — admite imagen de fondo (foto del salón)
+   ========================================================================== */
+#ubicacion{
+  background-image: var(--img-ubicacion), linear-gradient(160deg, var(--cream), var(--pink));
+  background-size:cover; background-position:center;
+}
+#ubicacion .capa{
+  background:rgba(253,248,246,.86);
+  text-align:center; padding: clamp(28px,7vw,44px) clamp(20px,6vw,36px);
+  max-width:420px; margin:0 auto; border:1px solid var(--line);
+}
+#ubicacion h3{ font-size:1.5rem; margin:8px 0 4px; }
+#ubicacion .direccion{ font-size:.92rem; color:var(--ink); line-height:1.6; margin-bottom:18px; }
+.btn{
+  display:inline-block; font-size:.75rem; letter-spacing:.14em;
+  padding:11px 20px; border:1px solid var(--pink-deep); color:var(--pink-deep);
+  text-decoration:none; transition: background .25s ease, color .25s ease;
+}
+.btn:hover{ background:var(--pink-deep); color:var(--cream); }
+.btn.alt{ border-color:var(--green-deep); color:var(--green-deep); }
+.btn.alt:hover{ background:var(--green-deep); color:var(--cream); }
+
+/* ==========================================================================
+   CONFIRMAR ASISTENCIA
+   ========================================================================== */
+#rsvp{ background:var(--cream); text-align:center; }
+#rsvp h2{ font-style:italic; margin-bottom:10px; }
+#rsvp .sub{ font-size:.92rem; color:var(--ink); margin-bottom:26px; }
+.telefono{
+  display:inline-flex; flex-direction:column; gap:14px;
+  border:1px solid var(--line); padding: clamp(22px,6vw,32px); max-width:340px; margin:0 auto 34px;
+}
+.telefono .num{ font-family:var(--serif); font-size:clamp(1.6rem,6vw,2rem); color:var(--pink-deep); letter-spacing:.04em; }
+.telefono .botones{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+form{ display:flex; flex-direction:column; gap:16px; max-width:380px; margin:0 auto; text-align:left; }
+label{ font-size:.72rem; letter-spacing:.1em; color:var(--green-deep); display:block; margin-bottom:6px; }
+input[type=text], select{
+  width:100%; font-family:var(--sans); font-size:.95rem;
+  padding:11px 12px; border:1px solid var(--line); background:var(--cream); color:var(--ink);
+}
+input[type=text]:focus, select:focus{ outline:2px solid var(--green-deep); outline-offset:1px; }
+.radios{ display:flex; gap:20px; font-size:.9rem; }
+.radios label{ display:flex; align-items:center; gap:8px; letter-spacing:0; color:var(--ink); }
+#rsvp button[type=submit]{
+  margin-top:6px; font-family:var(--sans); font-size:.8rem; letter-spacing:.14em;
+  background:var(--pink-deep); color:var(--cream); border:none; padding:14px; cursor:pointer;
+}
+#rsvp button[type=submit]:hover{ background:var(--green-deep); }
+#confirmacion-msg{
+  display:none; text-align:center; padding:26px; max-width:380px; margin:0 auto;
+  border:1px solid var(--green-deep); font-family:var(--serif); font-size:1.1rem; font-style:italic; color:var(--pink-deep);
+}
+
+/* ==========================================================================
+   PIE
+   ========================================================================== */
+footer{ text-align:center; padding: clamp(36px,8vw,54px) 20px; background:var(--green-mid); color:var(--ink); font-size:.75rem; letter-spacing:.08em; }
+footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-deep); margin-bottom:6px; }
+
+@media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+</style>
+</head>
+<body>
+
+<!-- ======================= PORTADA / SOBRE ======================= -->
+<div id="portada">
+  <div class="marco"></div>
+  <div class="contenido">
+    <div class="kicker">MIS XV AÑOS</div>
+    <h1 id="portada-nombre">Karla Gabriela<span id="portada-nombre2">Ambrosio Caal</span></h1>
+    <div class="xv">XV Años</div>
+    <div class="fecha" id="portada-fecha">3 de octubre 2026 · 6:00 PM</div>
+    <div class="abrir"><span class="aro"></span> TOCA PARA ABRIR</div>
+  </div>
+</div>
+
+<!-- ======================= INVITACIÓN ======================= -->
+<div id="invitacion">
+
+  <section id="mensaje">
+    <div class="wrap">
+      <p id="mensaje-texto">Hay momentos inolvidables que se atesoran en el corazón
+        para siempre, con esta razón quiero que compartas conmigo este día especial.</p>
+    </div>
+  </section>
+
+  <section id="nombre">
+    <div class="wrap">
+      <h2 id="nombre-principal">Karla Gabriela<span class="seg" id="nombre-segundo">Ambrosio Caal</span></h2>
+      <div class="xv">XV Años</div>
+      <div class="fecha" id="nombre-fecha">3 de octubre 2026 a las 6:00 PM</div>
+    </div>
+  </section>
+
+  <section id="cuenta">
+    <div class="wrap">
+      <h2>Faltan</h2>
+      <div class="cuenta-grid">
+        <div class="cuenta-item"><div class="num" id="c-dias">00</div><div class="lbl">DÍAS</div></div>
+        <div class="cuenta-item"><div class="num" id="c-horas">00</div><div class="lbl">HRS</div></div>
+        <div class="cuenta-item"><div class="num" id="c-min">00</div><div class="lbl">MIN</div></div>
+        <div class="cuenta-item"><div class="num" id="c-seg">00</div><div class="lbl">SEG</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ubicacion">
+    <div class="wrap">
+      <div class="capa">
+        <span class="eyebrow">DÓNDE</span>
+        <h3 id="ubicacion-nombre">Salón Comunal Colonia Nueva Vida</h3>
+        <div class="direccion" id="ubicacion-direccion">Lo de Coy, Zona 1, Mixco</div>
+        <a class="btn" href="https://maps.google.com" target="_blank" rel="noopener">VER MAPA</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="rsvp">
+    <div class="wrap">
+      <h2>Confirma tu asistencia</h2>
+      <div class="sub">Escríbeme o llámame al siguiente número</div>
+
+      <div class="telefono">
+        <div class="num" id="telefono-num">4230-5629</div>
+        <div class="botones">
+          <a class="btn" id="link-llamar" href="tel:42305629">LLAMAR</a>
+          <a class="btn alt" id="link-whatsapp" href="https://wa.me/50242305629" target="_blank" rel="noopener">WHATSAPP</a>
+        </div>
+      </div>
+
+      <form id="form-rsvp">
+        <div>
+          <label for="rsvp-nombre">NOMBRE Y APELLIDO</label>
+          <input type="text" id="rsvp-nombre" required>
+        </div>
+        <div>
+          <label>¿ASISTIRÁS?</label>
+          <div class="radios">
+            <label><input type="radio" name="asistencia" value="si" checked> Sí, ahí estaré</label>
+            <label><input type="radio" name="asistencia" value="no"> No podré asistir</label>
+          </div>
+        </div>
+        <div>
+          <label for="rsvp-acompanantes">NÚMERO DE ACOMPAÑANTES</label>
+          <select id="rsvp-acompanantes">
+            <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option>
+          </select>
+        </div>
+        <button type="submit">CONFIRMAR ASISTENCIA</button>
+      </form>
+
+      <div id="confirmacion-msg"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="firma">Karla Gabriela</div>
+    <div>Gracias por acompañarme en este día tan especial</div>
+  </footer>
+
+</div>
+
+<script>
+/* ==========================================================================
+   CONFIG — edita solo estos valores para adaptar la invitación
+   ========================================================================== */
+const CONFIG = {
+  nombrePrincipal: "Karla Gabriela",
+  nombreSegundo: "Ambrosio Caal",
+  fechaEvento: "2026-10-03T18:00:00",       // usada por la cuenta regresiva
+  fechaTexto: "3 de octubre 2026 · 6:00 PM", // texto que se muestra en portada
+  fechaTextoCompleta: "3 de octubre 2026 a las 6:00 PM",
+  telefono: "4230-5629",
+  telefonoLink: "42305629",       // solo dígitos, para el enlace "tel:"
+  whatsapp: "50242305629",        // con código de país, sin signos, para wa.me
+  ubicacionNombre: "Salón Comunal Colonia Nueva Vida",
+  ubicacionDireccion: "Lo de Coy, Zona 1, Mixco",
+  mensaje: "Hay momentos inolvidables que se atesoran en el corazón para siempre, con esta razón quiero que compartas conmigo este día especial.",
+
+  /* -------- IMÁGENES DE FONDO --------
+     Pon aquí la ruta o URL de tus imágenes. Si usas archivos locales,
+     crea una carpeta "assets" junto a este HTML y coloca ahí tus fotos,
+     por ejemplo: imagenPortada: "assets/fondo-portada.jpg"
+     Déjalo como cadena vacía "" para usar el degradado pastel de respaldo. */
+  imagenPortada: "",
+  imagenUbicacion: ""
+};
+
+document.getElementById('portada-nombre').firstChild.textContent = CONFIG.nombrePrincipal;
+document.getElementById('portada-nombre2').textContent = CONFIG.nombreSegundo;
+document.getElementById('portada-fecha').textContent = CONFIG.fechaTexto;
+document.getElementById('nombre-principal').firstChild.textContent = CONFIG.nombrePrincipal;
+document.getElementById('nombre-segundo').textContent = CONFIG.nombreSegundo;
+document.getElementById('nombre-fecha').textContent = CONFIG.fechaTextoCompleta;
+document.getElementById('mensaje-texto').textContent = CONFIG.mensaje;
+document.getElementById('ubicacion-nombre').textContent = CONFIG.ubicacionNombre;
+document.getElementById('ubicacion-direccion').textContent = CONFIG.ubicacionDireccion;
+document.getElementById('telefono-num').textContent = CONFIG.telefono;
+document.getElementById('link-llamar').href = "tel:" + CONFIG.telefonoLink;
+document.getElementById('link-whatsapp').href = "https://wa.me/" + CONFIG.whatsapp;
+
+if (CONFIG.imagenPortada) {
+  document.documentElement.style.setProperty('--img-portada', `url('${CONFIG.imagenPortada}')`);
+}
+if (CONFIG.imagenUbicacion) {
+  document.documentElement.style.setProperty('--img-ubicacion', `url('${CONFIG.imagenUbicacion}')`);
+}
+
+/* ---------- Apertura del sobre ---------- */
+const portada = document.getElementById('portada');
+const invitacion = document.getElementById('invitacion');
+
+portada.addEventListener('click', () => {
+  portada.classList.add('abriendo');
+  setTimeout(() => {
+    portada.style.display = 'none';
+    invitacion.classList.add('visible');
+    window.scrollTo(0, 0);
+  }, 550);
+});
+
+/* ---------- Cuenta regresiva ---------- */
+function actualizarCuenta(){
+  const objetivo = new Date(CONFIG.fechaEvento).getTime();
+  let diff = objetivo - Date.now();
+  if (diff < 0) diff = 0;
+
+  document.getElementById('c-dias').textContent = String(Math.floor(diff / 86400000)).padStart(2,'0');
+  document.getElementById('c-horas').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
+  document.getElementById('c-min').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+  document.getElementById('c-seg').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+}
+actualizarCuenta();
+setInterval(actualizarCuenta, 1000);
+
+/* ---------- Confirmación de asistencia (solo interfaz, sin backend) ---------- */
+document.getElementById('form-rsvp').addEventListener('submit', function(e){
+  e.preventDefault();
+  const nombre = document.getElementById('rsvp-nombre').value.trim();
+  const asiste = document.querySelector('input[name="asistencia"]:checked').value;
+  this.style.display = 'none';
+  const msg = document.getElementById('confirmacion-msg');
+  msg.style.display = 'block';
+  msg.textContent = asiste === 'si'
+    ? `Gracias, ${nombre}. ¡Tu asistencia quedó confirmada!`
+    : `Gracias por avisarme, ${nombre}. ¡Te extrañaremos ese día!`;
+  // Conecta este formulario a Google Forms, Sheets o correo si quieres guardar las respuestas.
+});
+</script>
+</body>
+</html>
