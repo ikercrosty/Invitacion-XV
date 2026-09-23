@@ -1,7 +1,7 @@
 /**
  * Link
  */
-export const GOOGLE_CALENDAR_LINK = `https://calendar.google.com/calendar/event?action=TEMPLATE&dates=20261003T180000Z%2F20261003T220000Z&text=Karla+Gabriela+%26+Ambrosio+Ra%C3%BAl+Wedding&details=Te+esperamos+en+la+boda+de+Karla+Gabriela+y+Ambrosio+Ra%C3%BAl`;
+export const GOOGLE_CALENDAR_LINK = `https://calendar.google.com/calendar/event?action=TEMPLATE&dates=20261003T180000Z%2F20261003T220000Z&text=Karla+Gabriela+XV+A%C3%B1os&details=Te+esperamos+en+los+XV+de+Karla+Gabriela`;
 export const GOOGLE_MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=Sal%C3%B3n+Comunal+Col.+Nueva+Vida,+Lo+de+Coy,+Zona+1,+Mixco`;
 
 /**

@@ -9,23 +9,23 @@ import '@assets/css/bootstrap.css';
 import '@assets/css/style.css';
 
 const IMAGE_URL = `https://miftahussalam.com/images/khitbahmeta.jpg`;
-const META_DESCRIPTION = `Dengan memohon Rahmat dan Ridho Illahi, teriring niat menjalankan Sunnah Rasulullah ﷺ untuk membentuk rumah tangga yang Sakinah, Mawaddah wa Rahmah, kami mohon do'a agar senantiasa diberikan kelancaran dan keberkahan. - Arin & Miftah`;
+const META_DESCRIPTION = `Te invitamos a celebrar los XV años de Karla Gabriela. Agradecemos tu presencia y cariño en este día tan especial.`;
 
 function MainLayout({ children }) {
   return (
     <Fragment>
       <Helmet>
-        <title>Karla Gabriela & Ambrosio Raúl</title>
+        <title>Karla Gabriela - XV Años</title>
 
         <link rel="icon" type="image/png" href={Favicon} />
 
-        <meta property="og:title" content="Karla Gabriela & Ambrosio Raúl" />
+        <meta property="og:title" content="Karla Gabriela - XV Años" />
         <meta property="og:image" itemprop="image" content={IMAGE_URL} />
         <meta property="og:url" content="https://arin.miftahussalam.com" />
-        <meta property="og:site_name" content="Karla Gabriela & Ambrosio Raúl" />
+        <meta property="og:site_name" content="Karla Gabriela - XV Años" />
         <meta property="og:description" content={META_DESCRIPTION} />
         <meta property="og:type" content="website" />
-        <meta name="twitter:title" content="Karla Gabriela & Ambrosio Raúl" />
+        <meta name="twitter:title" content="Karla Gabriela - XV Años" />
         <meta name="twitter:description" content={META_DESCRIPTION} />
         <meta name="twitter:image" content={IMAGE_URL} />
         <meta name="twitter:url" content="https://arin.miftahussalam.com" />

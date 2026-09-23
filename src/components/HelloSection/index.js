@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { bool } from 'prop-types';
 
 import Bride from '@assets/images/p-arin.jpg';
-import Groom from '@assets/images/p-miftah.jpg';
+// Imagen del acompañante removida, sólo mostraremos la quinceañera
 
 import { styWrapper } from './styles';
 
@@ -24,32 +24,13 @@ function HelloSection({ isInvitation }) {
 						</div>
 					</div>
 					<div className="couple-wrap">
-						<div className="couple-half">
+						<div className="couple-half single">
 							<div className="groom">
-								<img src={Bride} alt="groom" className="img-responsive" loading="lazy" />
+								<img src={Bride} alt="quinceanera" className="img-responsive" loading="lazy" />
 							</div>
 							<div className="desc-groom">
 								<h3 className="main-font">Karla Gabriela</h3>
-								<p className="parent-name parent-name__top">
-									Hija de sus padres
-								</p>
-							</div>
-						</div>
-						<p className="heart text-center">
-							<i className="icon-heart2"></i>
-						</p>
-						<div className="and-love">
-							<i>&</i>
-						</div>
-						<div className="couple-half">
-							<div className="bride">
-								<img src={Groom} alt="groom" className="img-responsive" loading="lazy" />
-							</div>
-							<div className="desc-bride">
-								<h3 className="main-font">Ambrosio Raúl</h3>
-								<p className="parent-name">
-									Hijo de sus padres
-								</p>
+								<p className="parent-name parent-name__top">Quinceañera</p>
 							</div>
 						</div>
 					</div>
