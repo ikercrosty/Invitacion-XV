@@ -18,6 +18,8 @@
   --green:#d6e8d6;
   --green-mid:#b7d4ba;
   --green-deep:#7fa384;
+  --gold:#c9a15f;
+  --gold-soft:#e3cfa1;
   --cream:#fdf8f6;
   --ink:#4a3f42;
   --line: rgba(201,126,148,.28);
@@ -28,10 +30,12 @@
   /* -------- IMÁGENES DE FONDO --------
      Se completan desde CONFIG en el <script>. Vacías = degradado pastel. */
   --img-portada: none;
+  --img-nombre: none;
   --img-ubicacion: none;
 }
 *{box-sizing:border-box; margin:0; padding:0;}
 html{ scroll-behavior:smooth; scroll-padding-top: env(safe-area-inset-top,0px); }
+:root{ --ease: cubic-bezier(.22,1,.36,1); }
 body{
   font-family:var(--sans);
   background:var(--cream);
@@ -44,7 +48,7 @@ img{max-width:100%; display:block;}
 a{color:inherit;}
 h1,h2,h3{font-family:var(--serif); font-weight:500; color:var(--pink-deep);}
 .wrap{max-width:520px; margin:0 auto; padding:0 clamp(20px,6vw,40px);}
-.eyebrow{ font-size:.72rem; letter-spacing:.16em; color:var(--green-deep); font-weight:500; }
+.eyebrow{ font-size:.72rem; letter-spacing:.16em; color:var(--gold); font-weight:500; }
 
 /* recorrido tipo "diapositivas": cada sección se acomoda al hacer scroll,
    igual que el deslizar de una invitación por pantallas */
@@ -55,9 +59,9 @@ section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
 
 /* --- revelado al hacer scroll: un único tipo de entrada, discreto y repetido
        con intención (no es azar) para que cada pantalla "aparezca" al llegar --- */
-.rev{ opacity:0; transform:translateY(22px); transition: opacity .7s ease, transform .7s ease; }
-.rev.on{ opacity:1; transform:none; }
-.rev-1{transition-delay:.05s;} .rev-2{transition-delay:.15s;} .rev-3{transition-delay:.25s;}
+.rev{ opacity:0; transform:translateY(28px) scale(.98); filter:blur(6px); transition: opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease); will-change:opacity,transform,filter; }
+.rev.on{ opacity:1; transform:none; filter:blur(0); }
+.rev-1{transition-delay:.08s;} .rev-2{transition-delay:.2s;} .rev-3{transition-delay:.32s;}
 
 /* ==========================================================================
    PORTADA — SOBRE DE VERDAD
@@ -72,7 +76,7 @@ section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
 }
 #portada::after{
   content:''; position:absolute; inset:0;
-  background:linear-gradient(160deg, rgba(247,223,228,.8), rgba(214,232,214,.8));
+  background:linear-gradient(160deg, rgba(247,223,228,.62), rgba(214,232,214,.62));
 }
 #portada > *{ position:relative; z-index:1; }
 #portada .kicker{ font-size:.78rem; letter-spacing:.26em; color:var(--green-deep); }
@@ -100,7 +104,7 @@ section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
   display:flex; align-items:center; justify-content:center;
   padding:8%;
   z-index:2;
-  transition: transform 1s cubic-bezier(.5,0,.2,1), opacity .6s ease .3s;
+  transition: transform 1.1s var(--ease) .1s;
 }
 .sobre .carta .txt{ font-family:var(--script); color:var(--pink-deep); font-size:clamp(1.1rem,4vw,1.4rem); line-height:1.3; }
 .sobre .frente-abajo{
@@ -118,13 +122,16 @@ section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
   transform-style:preserve-3d;
   backface-visibility:hidden;
   z-index:4;
-  transition: transform .9s cubic-bezier(.5,0,.2,1);
+  transition: transform 1s var(--ease);
 }
+.escena{ transition: transform .8s var(--ease); }
+#portada.abriendo .escena{ transform: scale(1.04); }
 .sobre .sello{
   position:absolute; left:50%; top:38%; translate:-50% -50%;
   width:clamp(30px,8vw,38px); height:clamp(30px,8vw,38px);
   border-radius:50%;
-  background: radial-gradient(circle at 35% 30%, var(--green-deep), var(--pink-deep));
+  background: radial-gradient(circle at 35% 30%, var(--gold-soft), var(--pink-deep));
+  border:1px solid rgba(255,255,255,.6);
   box-shadow: 0 3px 8px rgba(0,0,0,.18);
   z-index:5;
   display:flex; align-items:center; justify-content:center;
@@ -136,7 +143,7 @@ section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
 #portada.abriendo .solapa{ transform: rotateX(-165deg); }
 #portada.abriendo .sello{ opacity:0; transform:translate(-50%,-50%) scale(.6); }
 #portada.abriendo .carta{ transform: translateY(-58%) scale(1.06); }
-#portada.cerrando{ transition: opacity .6s ease .45s, visibility .6s ease .45s; opacity:0; visibility:hidden; }
+#portada.cerrando{ transition: opacity .7s var(--ease) .5s, visibility .7s var(--ease) .5s; opacity:0; visibility:hidden; }
 
 .toca-abrir{ display:flex; align-items:center; gap:10px; font-size:.74rem; letter-spacing:.2em; color:var(--green-deep); }
 .toca-abrir .aro{ width:8px; height:8px; border:1px solid var(--pink-deep); border-radius:50%; animation: latido 1.8s ease-in-out infinite; }
@@ -148,14 +155,17 @@ section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
 /* ==========================================================================
    NOMBRE PRINCIPAL — con invitación a deslizar, como el modelo de referencia
    ========================================================================== */
-#nombre{ min-height:100svh; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; background:linear-gradient(180deg, var(--cream), var(--pink)); }
+#nombre{ min-height:100svh; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; position:relative; background-image: var(--img-nombre), linear-gradient(180deg, var(--cream), var(--pink)); background-size:cover; background-position:center; }
+#nombre::before{ content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(253,248,246,.35), rgba(247,223,228,.55)); pointer-events:none; }
+#nombre > *{ position:relative; z-index:1; }
 #nombre h2{ font-family:var(--script); font-size:clamp(2.6rem,10vw,4rem); color:var(--pink-deep); line-height:1.1; }
 #nombre h2 .seg{ display:block; font-size:.68em; color:var(--green-deep); margin-top:4px; }
 #nombre .xv{ font-family:var(--serif); font-style:italic; font-size:clamp(1.3rem,5vw,1.7rem); margin-top:14px; }
 #nombre .fecha{ margin-top:14px; font-size:.95rem; letter-spacing:.08em; }
 .deslizar{ position:absolute; bottom:clamp(24px,6vw,40px); left:50%; translate:-50% 0; display:flex; flex-direction:column; align-items:center; gap:8px; font-size:.68rem; letter-spacing:.2em; color:var(--green-deep); }
-.deslizar svg{ animation: flotar 1.6s ease-in-out infinite; }
-@keyframes flotar{ 0%,100%{ transform:translateY(0); opacity:.5;} 50%{ transform:translateY(6px); opacity:1;} }
+.deslizar svg{ animation: flotar 2s ease-in-out infinite; }
+@keyframes flotar{ 0%,100%{ transform:translateY(0); opacity:.45;} 50%{ transform:translateY(8px); opacity:1;} }
+.deslizar, .toca-abrir{ transition: opacity .4s var(--ease); }
 
 /* ==========================================================================
    MENSAJE
@@ -169,8 +179,9 @@ section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
 #cuenta{ background:var(--green); text-align:center; }
 #cuenta h2{ font-size:clamp(1.5rem,6vw,1.9rem); font-style:italic; margin-bottom: clamp(24px,6vw,34px); }
 .cuenta-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(8px,2.5vw,16px); max-width:420px; margin:0 auto; }
-.cuenta-item{ background:var(--cream); border:1px solid var(--line); padding:clamp(12px,3vw,20px) 4px; transition: transform .25s ease; }
-.cuenta-item .num{ font-family:var(--serif); font-size:clamp(1.6rem,6.5vw,2.3rem); color:var(--pink-deep); font-weight:600; line-height:1; }
+.cuenta-item{ background:var(--cream); border:1px solid var(--line); padding:clamp(12px,3vw,20px) 4px; transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+.cuenta-item:hover{ transform:translateY(-3px); box-shadow:0 10px 20px -14px rgba(74,63,66,.35); }
+.cuenta-item .num{ font-family:var(--serif); font-size:clamp(1.6rem,6.5vw,2.3rem); color:var(--pink-deep); font-weight:600; line-height:1; transition: opacity .25s var(--ease); }
 .cuenta-item .lbl{ font-size:.64rem; letter-spacing:.1em; margin-top:6px; color:var(--green-deep); }
 
 /* ==========================================================================
@@ -180,10 +191,11 @@ section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
 #ubicacion .capa{ background:rgba(253,248,246,.88); text-align:center; padding: clamp(28px,7vw,44px) clamp(20px,6vw,36px); max-width:420px; margin:0 auto; border:1px solid var(--line); }
 #ubicacion h3{ font-size:1.5rem; margin:8px 0 4px; }
 #ubicacion .direccion{ font-size:.92rem; margin-bottom:18px; }
-.btn{ display:inline-block; font-size:.75rem; letter-spacing:.14em; padding:11px 20px; border:1px solid var(--pink-deep); color:var(--pink-deep); text-decoration:none; transition: background .25s ease, color .25s ease, transform .2s ease; }
-.btn:hover{ background:var(--pink-deep); color:var(--cream); transform:translateY(-2px); }
+.btn{ display:inline-block; font-size:.75rem; letter-spacing:.14em; padding:11px 20px; border:1px solid var(--pink-deep); color:var(--pink-deep); text-decoration:none; transition: background .3s var(--ease), color .3s var(--ease), transform .25s var(--ease), box-shadow .3s var(--ease); }
+.btn:hover{ background:var(--pink-deep); color:var(--cream); transform:translateY(-2px); box-shadow:0 8px 18px -8px rgba(201,126,148,.55); }
+.btn:active{ transform:translateY(0) scale(.97); }
 .btn.alt{ border-color:var(--green-deep); color:var(--green-deep); }
-.btn.alt:hover{ background:var(--green-deep); color:var(--cream); }
+.btn.alt:hover{ background:var(--green-deep); color:var(--cream); box-shadow:0 8px 18px -8px rgba(127,163,132,.55); }
 
 /* ==========================================================================
    CONFIRMAR ASISTENCIA
@@ -196,18 +208,50 @@ section{ padding: clamp(48px,10vw,80px) 0; position:relative; }
 .telefono .botones{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
 form{ display:flex; flex-direction:column; gap:16px; max-width:380px; margin:0 auto; text-align:left; }
 label{ font-size:.72rem; letter-spacing:.1em; color:var(--green-deep); display:block; margin-bottom:6px; }
-input[type=text], select{ width:100%; font-family:var(--sans); font-size:.95rem; padding:11px 12px; border:1px solid var(--line); background:var(--cream); color:var(--ink); }
-input[type=text]:focus, select:focus{ outline:2px solid var(--green-deep); outline-offset:1px; }
+input[type=text], select{ width:100%; font-family:var(--sans); font-size:.95rem; padding:11px 12px; border:1px solid var(--line); background:var(--cream); color:var(--ink); transition: border-color .3s var(--ease), box-shadow .3s var(--ease); }
+input[type=text]:focus, select:focus{ outline:none; border-color:var(--green-deep); box-shadow:0 0 0 3px rgba(127,163,132,.18); }
 .radios{ display:flex; gap:20px; font-size:.9rem; }
 .radios label{ display:flex; align-items:center; gap:8px; letter-spacing:0; color:var(--ink); }
-#rsvp button[type=submit]{ margin-top:6px; font-family:var(--sans); font-size:.8rem; letter-spacing:.14em; background:var(--pink-deep); color:var(--cream); border:none; padding:14px; cursor:pointer; transition:background .25s ease; }
+#rsvp button[type=submit]{ margin-top:6px; font-family:var(--sans); font-size:.8rem; letter-spacing:.14em; background:var(--pink-deep); color:var(--cream); border:none; padding:14px; cursor:pointer; transition:background .3s var(--ease), transform .2s var(--ease); }
 #rsvp button[type=submit]:hover{ background:var(--green-deep); }
-#confirmacion-msg{ display:none; text-align:center; padding:26px; max-width:380px; margin:0 auto; border:1px solid var(--green-deep); font-family:var(--serif); font-size:1.1rem; font-style:italic; color:var(--pink-deep); }
+#rsvp button[type=submit]:active{ transform:scale(.98); }
+#rsvp button[type=submit]:disabled{ opacity:.7; cursor:default; }
+#confirmacion-msg{ display:none; text-align:center; padding:26px; max-width:380px; margin:0 auto; border:1px solid var(--green-deep); font-family:var(--serif); font-size:1.1rem; font-style:italic; color:var(--pink-deep); opacity:0; transform:translateY(10px); transition:opacity .6s var(--ease), transform .6s var(--ease); }
+#confirmacion-msg.on{ opacity:1; transform:none; }
 
 footer{ text-align:center; padding: clamp(36px,8vw,54px) 20px; background:var(--green-mid); color:var(--ink); font-size:.75rem; letter-spacing:.08em; }
 footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-deep); margin-bottom:6px; }
 
 @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } .rev{ transition:none; } }
+
+/* ==========================================================================
+   ORNAMENTOS — separador floral y marcos decorativos (sin emojis)
+   ========================================================================== */
+.ornamento{ display:flex; align-items:center; justify-content:center; gap:14px; margin: 0 auto clamp(20px,5vw,32px); width:min(260px,70%); color:var(--gold); }
+.ornamento::before, .ornamento::after{ content:''; flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--gold-soft)); }
+.ornamento::after{ background:linear-gradient(90deg, var(--gold-soft), transparent); }
+.ornamento svg{ flex-shrink:0; }
+
+.marco-esquinas{ position:relative; }
+.marco-esquinas::before, .marco-esquinas::after{
+  content:''; position:absolute; width:26px; height:26px; border:1px solid var(--gold);
+  opacity:.75; pointer-events:none;
+}
+.marco-esquinas::before{ top:-8px; left:-8px; border-right:none; border-bottom:none; }
+.marco-esquinas::after{ bottom:-8px; right:-8px; border-left:none; border-top:none; }
+
+/* trazo floral de fondo, muy sutil, para llenar zonas vacías */
+.floral-bg{ position:relative; overflow:hidden; }
+.floral-bg::before{
+  content:''; position:absolute; top:-40px; right:-60px; width:220px; height:220px;
+  background: radial-gradient(circle, var(--pink-mid) 0%, transparent 68%);
+  opacity:.5; pointer-events:none;
+}
+.floral-bg::after{
+  content:''; position:absolute; bottom:-50px; left:-60px; width:200px; height:200px;
+  background: radial-gradient(circle, var(--green-mid) 0%, transparent 68%);
+  opacity:.4; pointer-events:none;
+}
 </style>
 </head>
 <body>
@@ -232,8 +276,9 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
 <!-- ======================= INVITACIÓN ======================= -->
 <div id="invitacion">
 
-  <section id="nombre">
+  <section id="nombre" class="floral-bg">
     <h2 id="nombre-principal">Karla Gabriela<span class="seg" id="nombre-segundo">Ambrosio Caal</span></h2>
+    <div class="ornamento"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2C12 7 17 8 22 8C17 8 12 9 12 14C12 9 7 8 2 8C7 8 12 7 12 2Z"/></svg></div>
     <div class="xv">XV Años</div>
     <div class="fecha" id="nombre-fecha">3 de octubre 2026 a las 6:00 PM</div>
     <div class="deslizar">
@@ -242,8 +287,9 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
     </div>
   </section>
 
-  <section id="mensaje">
+  <section id="mensaje" class="floral-bg">
     <div class="wrap rev">
+      <div class="ornamento"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2C12 7 17 8 22 8C17 8 12 9 12 14C12 9 7 8 2 8C7 8 12 7 12 2Z"/></svg></div>
       <p id="mensaje-texto">Hay momentos inolvidables que se atesoran en el corazón
         para siempre, con esta razón quiero que compartas conmigo este día especial.</p>
     </div>
@@ -252,22 +298,23 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
   <section id="cuenta">
     <div class="wrap rev">
       <h2>Faltan</h2>
+      <div class="ornamento"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2C12 7 17 8 22 8C17 8 12 9 12 14C12 9 7 8 2 8C7 8 12 7 12 2Z"/></svg></div>
       <div class="cuenta-grid">
-        <div class="cuenta-item"><div class="num" id="c-dias">00</div><div class="lbl">DÍAS</div></div>
-        <div class="cuenta-item"><div class="num" id="c-horas">00</div><div class="lbl">HRS</div></div>
-        <div class="cuenta-item"><div class="num" id="c-min">00</div><div class="lbl">MIN</div></div>
-        <div class="cuenta-item"><div class="num" id="c-seg">00</div><div class="lbl">SEG</div></div>
+        <div class="cuenta-item marco-esquinas"><div class="num" id="c-dias">00</div><div class="lbl">DÍAS</div></div>
+        <div class="cuenta-item marco-esquinas"><div class="num" id="c-horas">00</div><div class="lbl">HRS</div></div>
+        <div class="cuenta-item marco-esquinas"><div class="num" id="c-min">00</div><div class="lbl">MIN</div></div>
+        <div class="cuenta-item marco-esquinas"><div class="num" id="c-seg">00</div><div class="lbl">SEG</div></div>
       </div>
     </div>
   </section>
 
   <section id="ubicacion">
     <div class="wrap">
-      <div class="capa rev">
+      <div class="capa rev marco-esquinas">
         <span class="eyebrow">DÓNDE</span>
         <h3 id="ubicacion-nombre">Salón Comunal Colonia Nueva Vida</h3>
         <div class="direccion" id="ubicacion-direccion">Lo de Coy, Zona 1, Mixco</div>
-        <a class="btn" href="https://maps.app.goo.gl/t24wsTgHyjoHwwhg9" target="_blank" rel="noopener">VER MAPA</a>
+        <a class="btn" href="https://maps.google.com" target="_blank" rel="noopener">VER MAPA</a>
       </div>
     </div>
   </section>
@@ -276,10 +323,11 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
     <div class="wrap">
       <div class="rev rev-1">
         <h2>Confirma tu asistencia</h2>
+        <div class="ornamento"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2C12 7 17 8 22 8C17 8 12 9 12 14C12 9 7 8 2 8C7 8 12 7 12 2Z"/></svg></div>
         <div class="sub">Escríbeme o llámame al siguiente número</div>
       </div>
 
-      <div class="telefono rev rev-2">
+      <div class="telefono rev rev-2 marco-esquinas">
         <div class="num" id="telefono-num">4230-5629</div>
         <div class="botones">
           <a class="btn" id="link-llamar" href="tel:42305629">LLAMAR</a>
@@ -314,6 +362,7 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
   </section>
 
   <footer>
+    <div class="ornamento"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2C12 7 17 8 22 8C17 8 12 9 12 14C12 9 7 8 2 8C7 8 12 7 12 2Z"/></svg></div>
     <div class="firma">Karla Gabriela</div>
     <div>Gracias por acompañarme en este día tan especial</div>
   </footer>
@@ -341,6 +390,7 @@ const CONFIG = {
      imagenPortada: "assets/fondo-portada.jpg"
      Déjalo vacío "" para usar el degradado pastel de respaldo. */
   imagenPortada: "",
+  imagenNombre: "",
   imagenUbicacion: ""
 };
 
@@ -357,6 +407,7 @@ document.getElementById('link-whatsapp').href = "https://wa.me/" + CONFIG.whatsa
 document.querySelector('.sello').textContent = CONFIG.nombrePrincipal.charAt(0);
 
 if (CONFIG.imagenPortada) document.documentElement.style.setProperty('--img-portada', `url('${CONFIG.imagenPortada}')`);
+if (CONFIG.imagenNombre) document.documentElement.style.setProperty('--img-nombre', `url('${CONFIG.imagenNombre}')`);
 if (CONFIG.imagenUbicacion) document.documentElement.style.setProperty('--img-ubicacion', `url('${CONFIG.imagenUbicacion}')`);
 
 /* ---------- Apertura del sobre: flap que se abre + carta que sale ---------- */
@@ -387,14 +438,20 @@ const observador = new IntersectionObserver((entradas) => {
 document.querySelectorAll('.rev').forEach(el => observador.observe(el));
 
 /* ---------- Cuenta regresiva ---------- */
+function fijarNumero(id, valor){
+  const el = document.getElementById(id);
+  if (el.textContent === valor) return;
+  el.style.opacity = '0';
+  setTimeout(() => { el.textContent = valor; el.style.opacity = '1'; }, 120);
+}
 function actualizarCuenta(){
   const objetivo = new Date(CONFIG.fechaEvento).getTime();
   let diff = objetivo - Date.now();
   if (diff < 0) diff = 0;
-  document.getElementById('c-dias').textContent = String(Math.floor(diff / 86400000)).padStart(2,'0');
-  document.getElementById('c-horas').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
-  document.getElementById('c-min').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
-  document.getElementById('c-seg').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+  fijarNumero('c-dias', String(Math.floor(diff / 86400000)).padStart(2,'0'));
+  fijarNumero('c-horas', String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0'));
+  fijarNumero('c-min', String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0'));
+  fijarNumero('c-seg', String(Math.floor((diff % 60000) / 1000)).padStart(2,'0'));
 }
 actualizarCuenta();
 setInterval(actualizarCuenta, 1000);
@@ -419,12 +476,17 @@ document.getElementById('form-rsvp').addEventListener('submit', async function(e
     });
 
     if (respuesta.ok) {
-      form.style.display = 'none';
-      const msg = document.getElementById('confirmacion-msg');
-      msg.style.display = 'block';
-      msg.textContent = asiste === 'si'
-        ? `Gracias, ${nombre}. ¡Tu asistencia quedó confirmada!`
-        : `Gracias por avisarme, ${nombre}. ¡Te extrañaremos ese día!`;
+      form.style.transition = 'opacity .4s var(--ease)';
+      form.style.opacity = '0';
+      setTimeout(() => {
+        form.style.display = 'none';
+        const msg = document.getElementById('confirmacion-msg');
+        msg.style.display = 'block';
+        msg.textContent = asiste === 'si'
+          ? `Gracias, ${nombre}. ¡Tu asistencia quedó confirmada!`
+          : `Gracias por avisarme, ${nombre}. ¡Te extrañaremos ese día!`;
+        requestAnimationFrame(() => msg.classList.add('on'));
+      }, 400);
     } else {
       throw new Error('Formspree respondió con error');
     }
