@@ -1,0 +1,13 @@
+{
+  "name": "invitacion-xv",
+  "version": "1.0.0",
+  "description": "Invitacion",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build needed'",
+    "start": "npx serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.0"
+  }
+}
