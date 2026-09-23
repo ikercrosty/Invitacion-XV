@@ -228,6 +228,31 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
 @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } .rev{ transition:none; } }
 
 /* ==========================================================================
+   FAB — botón flotante de música
+   ========================================================================== */
+#fab-musica{
+  position:fixed; right:18px; bottom:18px;
+  bottom: calc(18px + env(safe-area-inset-bottom,0px));
+  width:50px; height:50px; border-radius:50%;
+  background:var(--cream); color:var(--pink-deep);
+  border:1px solid var(--gold-soft);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 24px -10px rgba(74,63,66,.45);
+  cursor:pointer;
+  z-index:60;
+  opacity:0; pointer-events:none; transform:translateY(10px) scale(.9);
+  transition: opacity .4s var(--ease), transform .4s var(--ease), background .3s var(--ease), color .3s var(--ease);
+}
+#fab-musica.visible{ opacity:1; pointer-events:auto; transform:none; }
+#fab-musica:hover{ background:var(--pink-deep); color:var(--cream); }
+#fab-musica:active{ transform:scale(.92); }
+#fab-musica .icono-off{ display:none; }
+#fab-musica.silenciado .icono-on{ display:none; }
+#fab-musica.silenciado .icono-off{ display:block; }
+#fab-musica:not(.silenciado) svg{ animation: pulso-suave 2.4s ease-in-out infinite; }
+@keyframes pulso-suave{ 0%,100%{ opacity:1; } 50%{ opacity:.6; } }
+
+/* ==========================================================================
    ORNAMENTOS — separador floral y marcos decorativos (sin emojis)
    ========================================================================== */
 .ornamento{ display:flex; align-items:center; justify-content:center; gap:14px; margin: 0 auto clamp(20px,5vw,32px); width:min(260px,70%); color:var(--gold); }
@@ -372,6 +397,19 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
 
 </div>
 
+<audio id="musica-fondo" loop preload="none"></audio>
+<button id="fab-musica" type="button" aria-label="Silenciar o activar música">
+  <svg class="icono-on" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9v6h4l5 4V5L8 9H4Z"/>
+    <path d="M16.5 8.5a5 5 0 0 1 0 7"/>
+    <path d="M19 6a8.5 8.5 0 0 1 0 12"/>
+  </svg>
+  <svg class="icono-off" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9v6h4l5 4V5L8 9H4Z"/>
+    <path d="M16 9l5 6M21 9l-5 6"/>
+  </svg>
+</button>
+
 <script>
 /* ==========================================================================
    CONFIG — edita solo estos valores para adaptar la invitación
@@ -394,7 +432,8 @@ const CONFIG = {
      Déjalo vacío "" para usar el degradado pastel de respaldo. */
   imagenPortada: "",
   imagenNombre: "",
-  imagenUbicacion: ""
+  imagenUbicacion: "",
+  musica: "assets/musica.mp3"
 };
 
 document.getElementById('carta-nombre').textContent = CONFIG.nombrePrincipal;
@@ -412,6 +451,7 @@ document.querySelector('.sello').textContent = CONFIG.nombrePrincipal.charAt(0);
 if (CONFIG.imagenPortada) document.documentElement.style.setProperty('--img-portada', `url('${CONFIG.imagenPortada}')`);
 if (CONFIG.imagenNombre) document.documentElement.style.setProperty('--img-nombre', `url('${CONFIG.imagenNombre}')`);
 if (CONFIG.imagenUbicacion) document.documentElement.style.setProperty('--img-ubicacion', `url('${CONFIG.imagenUbicacion}')`);
+if (CONFIG.musica) document.getElementById('musica-fondo').src = CONFIG.musica;
 
 /* ---------- Apertura del sobre: flap que se abre + carta que sale ---------- */
 const portada = document.getElementById('portada');
@@ -432,7 +472,36 @@ portada.addEventListener('click', () => {
     invitacion.classList.add('visible');
     window.scrollTo(0, 0);
   }, 1300);
+
+  iniciarMusica();
 });
+
+/* ---------- Música de fondo + FAB de silenciar ---------- */
+const audio = document.getElementById('musica-fondo');
+const fabMusica = document.getElementById('fab-musica');
+let musicaIniciada = false;
+
+function iniciarMusica(){
+  if (musicaIniciada || !CONFIG.musica) return;
+  musicaIniciada = true;
+  audio.volume = 0.6;
+  audio.play().catch(() => { /* el navegador puede bloquear autoplay; el FAB sigue permitiendo reproducir manualmente */ });
+  fabMusica.classList.add('visible');
+  actualizarIconoFab();
+}
+
+fabMusica.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play().catch(() => {});
+  } else {
+    audio.pause();
+  }
+  actualizarIconoFab();
+});
+
+function actualizarIconoFab(){
+  fabMusica.classList.toggle('silenciado', audio.paused);
+}
 
 /* ---------- Revelado de secciones al hacer scroll ---------- */
 const observador = new IntersectionObserver((entradas) => {
