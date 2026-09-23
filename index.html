@@ -267,7 +267,7 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
         <span class="eyebrow">DÓNDE</span>
         <h3 id="ubicacion-nombre">Salón Comunal Colonia Nueva Vida</h3>
         <div class="direccion" id="ubicacion-direccion">Lo de Coy, Zona 1, Mixco</div>
-        <a class="btn" href="https://maps.google.com" target="_blank" rel="noopener">VER MAPA</a>
+        <a class="btn" href="https://maps.app.goo.gl/t24wsTgHyjoHwwhg9" target="_blank" rel="noopener">VER MAPA</a>
       </div>
     </div>
   </section>
@@ -287,10 +287,11 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
         </div>
       </div>
 
-      <form id="form-rsvp" class="rev rev-3">
+      <form id="form-rsvp" class="rev rev-3" action="https://formspree.io/f/xvkgrpde" method="POST">
+        <input type="hidden" name="_subject" value="Nueva confirmación - Mis XV Años">
         <div>
           <label for="rsvp-nombre">NOMBRE Y APELLIDO</label>
-          <input type="text" id="rsvp-nombre" required>
+          <input type="text" id="rsvp-nombre" name="nombre" required>
         </div>
         <div>
           <label>¿ASISTIRÁS?</label>
@@ -301,7 +302,7 @@ footer .firma{ font-family:var(--script); font-size:1.8rem; color:var(--pink-dee
         </div>
         <div>
           <label for="rsvp-acompanantes">NÚMERO DE ACOMPAÑANTES</label>
-          <select id="rsvp-acompanantes">
+          <select id="rsvp-acompanantes" name="acompañantes">
             <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option>
           </select>
         </div>
@@ -398,17 +399,40 @@ function actualizarCuenta(){
 actualizarCuenta();
 setInterval(actualizarCuenta, 1000);
 
-/* ---------- Confirmación de asistencia (solo interfaz, sin backend) ---------- */
-document.getElementById('form-rsvp').addEventListener('submit', function(e){
+/* ---------- Confirmación de asistencia (envía a Formspree) ---------- */
+document.getElementById('form-rsvp').addEventListener('submit', async function(e){
   e.preventDefault();
+  const form = this;
   const nombre = document.getElementById('rsvp-nombre').value.trim();
   const asiste = document.querySelector('input[name="asistencia"]:checked').value;
-  this.style.display = 'none';
-  const msg = document.getElementById('confirmacion-msg');
-  msg.style.display = 'block';
-  msg.textContent = asiste === 'si'
-    ? `Gracias, ${nombre}. ¡Tu asistencia quedó confirmada!`
-    : `Gracias por avisarme, ${nombre}. ¡Te extrañaremos ese día!`;
+  const boton = form.querySelector('button[type=submit]');
+  const textoOriginal = boton.textContent;
+  boton.textContent = 'ENVIANDO...';
+  boton.disabled = true;
+
+  try {
+    const datos = new FormData(form);
+    const respuesta = await fetch(form.action, {
+      method: 'POST',
+      body: datos,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (respuesta.ok) {
+      form.style.display = 'none';
+      const msg = document.getElementById('confirmacion-msg');
+      msg.style.display = 'block';
+      msg.textContent = asiste === 'si'
+        ? `Gracias, ${nombre}. ¡Tu asistencia quedó confirmada!`
+        : `Gracias por avisarme, ${nombre}. ¡Te extrañaremos ese día!`;
+    } else {
+      throw new Error('Formspree respondió con error');
+    }
+  } catch (error) {
+    boton.textContent = textoOriginal;
+    boton.disabled = false;
+    alert('Hubo un problema al enviar tu confirmación. Por favor intenta de nuevo o escríbeme por WhatsApp.');
+  }
 });
 </script>
 </body>
